@@ -47,13 +47,17 @@ def show(root):
     conjunto_estados_finals = tk.Entry(automata, width=10)
     conjunto_estados_finals.grid(row=4, column=1)
 
+
+    hint = tk.Label(automata, text="Ej: q3,q5")
+    hint.grid(row=5, column=1, pady=10)
+
     # Botón para agregar una nueva fila
     add_row_button = tk.Button(automata, text="Nueva fila", width=10)
     add_row_button.grid(row=2, column=0, pady=10)
     add_row_button.config(command=lambda: add_new_row(
         automata, enviar_button, add_row_button,
         label_estado_inicial,estado_inicial,
-        conjunto_estados_finals,label_estado_final
+        conjunto_estados_finals,label_estado_final,hint
         ))
     print("formulario mostrado")
 
@@ -82,7 +86,7 @@ def enviar_formulario(root, frame,estado_inicial,conjunto_estados_finals):
 
 
 # Función para agregar una nueva fila
-def add_new_row(automata, enviar_button, add_row_button,label_estado_inicial,estado_inicial,conjunto_estados_finals,label_estado_final):
+def add_new_row(automata, enviar_button, add_row_button,label_estado_inicial,estado_inicial,conjunto_estados_finals,label_estado_final,hint):
     global num_rows, entry_fields
     num_rows += 1
     entry_fields.append([])
@@ -100,7 +104,7 @@ def add_new_row(automata, enviar_button, add_row_button,label_estado_inicial,est
     conjunto_estados_finals.grid(row=num_rows+3, column=1, pady=10)
     ##
     enviar_button.grid(row=num_rows+3, column=3, pady=10)
-
+    hint.grid(row=num_rows+4, column=1, pady=10)
 
     print("se creó una nueva fila")
 
