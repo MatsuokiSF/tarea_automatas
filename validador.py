@@ -1,5 +1,6 @@
 import tkinter as tk
 import automata
+#Librerias a importar
 import networkx as nx               # grafo
 import matplotlib.pyplot as plt     #grafo bonito
 from PIL import Image, ImageTk      #
@@ -11,28 +12,29 @@ def show(root, estado_inicial, conjunto_estados_finales, transiciones):
     farm_validador = tk.Frame(root)
     farm_validador.pack()
     
-    
-    tk.Label(farm_validador, text="Ingrese palabra:").grid(row=0, column=0)
+    tk.Label(farm_validador, text="Ingrese palabra:").grid(row=350, column=0, pady=8)
     palabra = tk.Entry(farm_validador)
-    palabra.grid(row=0, column=1)
+    palabra.grid(row=350, column=1, pady=5)
 
     resultado_label = tk.Label(farm_validador, text="")
-    resultado_label.grid(row=2, columnspan=2)
+    resultado_label.grid(row=351, column =1, pady=5)
 
-    boton_buscar = tk.Button(farm_validador, text="verificar", command=lambda: revisar_palabra(
+    boton_buscar = tk.Button(farm_validador, text="Verificar", command=lambda: revisar_palabra(
         resultado_label,transiciones, palabra.get(), estado_inicial, conjunto_estados_finales))
-    boton_buscar.grid(row=1, columnspan=2)
+    boton_buscar.grid(row=353,columnspan=2,pady=8)
 
     # Botón para volver al formulario
     boton_volver = tk.Button(farm_validador, text="Nuevo Automata",
                               command=lambda: volver_al_formulario(root, farm_validador))
-    boton_volver.grid(row=3, columnspan=2)
+    boton_volver.grid(row=354, columnspan=2)
+    
+    plot_graph(transiciones,farm_validador,conjunto_estados_finales)
 
         # Botón para volver al graficar
-    boton_graficar = tk.Button(farm_validador, text="Graficar Automata",
-                              command=lambda: plot_graph(transiciones,farm_validador)
+    boton_graficar = tk.Button(farm_validador, text="Recargar Automata",
+                              command=lambda: plot_graph(transiciones,farm_validador,conjunto_estados_finales)
                               )
-    boton_graficar.grid(row=4, columnspan=2)
+    boton_graficar.grid(row=353,columnspan=1 ,pady=8)
 
 # Función para volver al formulario
 def volver_al_formulario(root, farm_validador):
@@ -59,8 +61,7 @@ def evaluar_palabra(transiciones, palabra, estado_inicial, conjunto_estados_fina
         estado_actual = transiciones[transicion]
     return estado_actual in conjunto_estados_finals
 
-
-def plot_graph(transiciones,farm_validador):
+def plot_graph(transiciones,farm_validador,conjunto_estados_finales):
 
     # Clear the previous graph if it exists
     plt.clf()
@@ -100,9 +101,10 @@ def plot_graph(transiciones,farm_validador):
 
     # Draw the graph
     pos = nx.spring_layout(G)
+    node_colors = ['lightcoral' if label in conjunto_estados_finales else 'skyblue' for label in G.nodes()]
 
     # Draw edges
-    nx.draw(G, pos, with_labels=True, node_color='skyblue', node_size=1500, font_size=12, font_weight='bold', arrows=True)
+    nx.draw(G, pos, with_labels=True, node_color=node_colors, node_size=1500, font_size=12, font_weight='bold', arrows=True)
 
     # Add edge labels
     edge_labels = {(q, r): data['label'] for q, r, data in G.edges(data=True)}
@@ -143,7 +145,7 @@ def plot_graph(transiciones,farm_validador):
     img = Image.open("graph.png")
 
     # Resize the image if necessary
-    img = img.resize((400, 300))
+    img = img.resize((550, 300))
 
     # Convert the image to a format that tkinter can display
     img_tk = ImageTk.PhotoImage(img)
@@ -153,8 +155,4 @@ def plot_graph(transiciones,farm_validador):
     image_label.image = img_tk  # Keep a reference to avoid garbage collection
 
     # Place the image label using the grid layout manager
-    image_label.grid(row=5, column=1)  # You can adjust row and column values as needed
-
-    # Place the image label at specific pixel coordinates
-    #image_label.place(x=350, y=21)
-
+    image_label.grid(row=0, column=1)  # You can adjust row and column values as needed
