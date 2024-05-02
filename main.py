@@ -6,7 +6,7 @@ root = tk.Tk()
 root.title("Automata / Validador")
 
 # Establecer el tamaño de la ventana principal
-root.geometry("600x400")
+root.geometry("650x500")
 
 # Mostrar el formulario inicial
 automata.show(root)
